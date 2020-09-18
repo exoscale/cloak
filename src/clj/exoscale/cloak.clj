@@ -1,6 +1,7 @@
 (ns exoscale.cloak
   (:require [clojure.pprint :as pp]
-            [clojure.walk :as walk]))
+            [clojure.walk :as walk]
+            [clojure.spec.alpha :as s]))
 
 (deftype Secret [x]
   Object (toString [_] "<<-secret->>")
@@ -30,3 +31,5 @@
                     (instance? Secret %)
                     deref)
                  x))
+
+(s/def ::secret #(instance? Secret %))
