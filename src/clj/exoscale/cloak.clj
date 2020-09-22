@@ -4,7 +4,12 @@
             [clojure.spec.alpha :as s]))
 
 (deftype Secret [x]
-  Object (toString [_] "<<-secret->>")
+  Object
+  (toString [this] "<<-secret->>")
+  (equals [this object]
+    (and (instance? Secret object)
+         (= x (.-x ^Secret object))))
+  (hashCode [this] (.hashCode x))
   clojure.lang.IDeref
   (deref [this] x)
   clojure.lang.IPending

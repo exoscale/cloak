@@ -19,3 +19,21 @@
     (is (= {:a {:b {:c [1 "foo"]}}} (secret/unmask {:a {:b {:c [1 s]}}})))
     (defrecord F [s])
     (is (= (->F @s) (secret/unmask (->F s))))))
+
+(deftest secret-equality
+  (testing "equality must succeed for same secret value"
+    (let [x (rand-int 1000)
+          s1 (secret/mask x)
+          s2 (secret/mask x)]
+      (is (= s1 s2))
+      (is (= (.hashCode s1) (.hashCode s2)))))
+  (testing "equality must fail for different secret value"
+    (let [s1 (secret/mask "foo")
+          s2 (secret/mask "bar")]
+      (is (not= s1 s2))
+      (is (not= (.hashCode s1) (.hashCode s2))))))
+
+
+
+
+
