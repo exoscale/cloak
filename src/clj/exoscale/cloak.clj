@@ -4,7 +4,7 @@
             [clojure.spec.alpha :as s]))
 
 (deftype Secret [x]
-  Object (toString [_] "<<-secret->>")
+  Object (toString [_] "<< cloaked >>")
   clojure.lang.IDeref
   (deref [this] x)
   clojure.lang.IPending
