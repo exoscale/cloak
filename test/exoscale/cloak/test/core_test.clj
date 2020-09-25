@@ -10,7 +10,7 @@
     (is (= "foo" @s))
     (is (nil? (str/index-of (pr-str s) "foo")))
     (is (nil? (str/index-of (str s) "foo")))
-    (is (= "\"<<-secret->>\"\n" (with-out-str (pp/pprint s))))
+    (is (= "\"<< cloaked >>\"\n" (with-out-str (pp/pprint s))))
 
     (is (= nil (secret/unmask nil)))
     (is (= 1 (secret/unmask 1)))
