@@ -25,4 +25,6 @@
         y (secret/mask "y")]
     (is (= [x y] (sort [x y])))
     (is (zero? (.compareTo ^Comparable x
-                           ^Comparable y)))))
+                           ^Comparable y)))
+    (is (zero? (.compareTo ^Comparable y
+                           ^Comparable x)))))
