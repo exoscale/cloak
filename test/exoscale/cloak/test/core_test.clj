@@ -19,3 +19,12 @@
     (is (= {:a {:b {:c [1 "foo"]}}} (secret/unmask {:a {:b {:c [1 s]}}})))
     (defrecord F [s])
     (is (= (->F @s) (secret/unmask (->F s))))))
+
+(deftest compare-test
+  (let [x (secret/mask "x")
+        y (secret/mask "y")]
+    (is (= [x y] (sort [x y])))
+    (is (zero? (.compareTo ^Comparable x
+                           ^Comparable y)))
+    (is (zero? (.compareTo ^Comparable y
+                           ^Comparable x)))))
