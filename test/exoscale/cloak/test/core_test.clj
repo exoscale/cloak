@@ -23,4 +23,6 @@
 (deftest compare-test
   (let [x (secret/mask "x")
         y (secret/mask "y")]
-    (is (= [x y] (sort [x y])))))
+    (is (= [x y] (sort [x y])))
+    (is (zero? (.compareTo ^Comparable x
+                           ^Comparable y)))))
