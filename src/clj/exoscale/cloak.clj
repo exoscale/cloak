@@ -8,7 +8,9 @@
   clojure.lang.IDeref
   (deref [this] x)
   clojure.lang.IPending
-  (isRealized [this] false))
+  (isRealized [this] false)
+  Comparable
+  (compareTo [this other] 0)) ; to make with with seql h2/mysql compat
 
 (defmethod print-method Secret [o ^java.io.Writer w]
   (.write w "\"")
