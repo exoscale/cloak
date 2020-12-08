@@ -23,7 +23,9 @@
 (defn mask
   "Mask a value behind the `Secret` type, hiding its real value when printing"
   [x]
-  (Secret. x))
+  (if (instance? Secret x)
+    x
+    (Secret. x)))
 
 (defn unmask
   "Reveals all potential secrets from `x`, returning the value with secrets

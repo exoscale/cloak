@@ -28,3 +28,7 @@
                            ^Comparable y)))
     (is (zero? (.compareTo ^Comparable y
                            ^Comparable x)))))
+
+(deftest double-masking-test
+  (testing "masking a secret twice requires only a single unmasking"
+    (is (= "foo" (secret/unmask (secret/mask (secret/mask "foo")))))))
