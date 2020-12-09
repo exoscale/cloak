@@ -32,3 +32,7 @@
 (deftest double-masking-test
   (testing "masking a secret twice requires only a single unmasking"
     (is (= "foo" (secret/unmask (secret/mask (secret/mask "foo")))))))
+
+(deftest predicate-test
+  (is (secret/secret? (secret/mask "foo")))
+  (is (false? (secret/secret? "not-a-secret"))))
