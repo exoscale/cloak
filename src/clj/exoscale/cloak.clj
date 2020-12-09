@@ -40,8 +40,6 @@
 (defn secret? [x]
   (instance? Secret x))
 
-(s/def ::secret secret?)
-
 (s/def ::secret
   (s/with-gen secret?
     #(gen/fmap mask (s/gen any?))))
