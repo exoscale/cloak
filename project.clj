@@ -1,4 +1,4 @@
-(defproject exoscale/cloak "0.1.4-SNAPSHOT"
+(defproject exoscale/cloak "0.1.5-SNAPSHOT"
   :description ""
   :license {:name "ISC"}
   :url "https://github.com/exoscale/cloak"

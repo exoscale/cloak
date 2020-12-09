@@ -37,3 +37,6 @@
                  x))
 
 (s/def ::secret #(instance? Secret %))
+
+(defn secret? [x]
+  (instance? Secret x))
