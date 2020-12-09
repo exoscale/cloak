@@ -2,7 +2,8 @@
   (:require [clojure.test :refer :all]
             [exoscale.cloak :as secret]
             [clojure.string :as str]
-            [clojure.pprint :as pp]))
+            [clojure.pprint :as pp]
+            [clojure.spec.alpha :as s]))
 
 (deftest secret-test
   (let [x "foo"
@@ -36,3 +37,6 @@
 (deftest predicate-test
   (is (secret/secret? (secret/mask "foo")))
   (is (false? (secret/secret? "not-a-secret"))))
+
+(deftest gen-test
+  (is (every? secret/secret? (map first (s/exercise ::secret/secret)))))
