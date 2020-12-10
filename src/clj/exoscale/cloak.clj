@@ -1,6 +1,7 @@
 (ns exoscale.cloak
   (:require [clojure.pprint :as pp]
             [clojure.walk :as walk]
+            [clojure.spec.gen.alpha :as gen]
             [clojure.spec.alpha :as s]))
 
 (deftype Secret [x]
@@ -36,7 +37,9 @@
                     deref)
                  x))
 
-(s/def ::secret #(instance? Secret %))
-
 (defn secret? [x]
   (instance? Secret x))
+
+(s/def ::secret
+  (s/with-gen secret?
+    #(gen/fmap mask (s/gen any?))))
