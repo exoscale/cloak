@@ -5,7 +5,13 @@
             [clojure.spec.alpha :as s]))
 
 (deftype Secret [x]
-  Object (toString [_] "<< cloaked >>")
+  Object
+  (toString [_] "<< cloaked >>")
+  (equals [this object]
+    (and (instance? Secret object)
+         (= x (.-x ^Secret object))))
+  (hashCode [this]
+    (.hashCode x))
   clojure.lang.IDeref
   (deref [this] x)
   clojure.lang.IPending
