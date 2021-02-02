@@ -32,9 +32,9 @@
   "Reveals all potential secrets from `x`, returning the value with secrets
   unmasked, works on any walkable type"
   [x]
-  (walk/postwalk #(cond-> %
-                    (instance? Secret %)
-                    deref)
+  (walk/postwalk #(if (instance? Secret %)
+                    (unmask (deref %))
+                    %)
                  x))
 
 (defn secret? [x]
