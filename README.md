@@ -14,4 +14,4 @@ Add this to your dependencies:
 
 ## License
 
-Copyright © 2020 [Exoscale](https://exoscale.com)
+Copyright © 2022 [Exoscale](https://exoscale.com)
