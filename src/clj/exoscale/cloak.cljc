@@ -13,13 +13,23 @@
   Comparable
   (compareTo [this other] 0)) ; to make with with seql h2/mysql compat
 
-(defmethod print-method Secret [o ^java.io.Writer w]
-  (.write w "\"")
-  (.write w (str o))
-  (.write w "\""))
+(defmethod pp/simple-dispatch Secret
+  [x]
+  (pr (str x)))
 
-(prefer-method print-method Secret Object)
-(.addMethod ^clojure.lang.MultiFn pp/simple-dispatch Secret #(pr (str %)))
+#?(:clj
+   (do
+     (defmethod print-method Secret [o ^java.io.Writer w]
+       (.write w "\"")
+       (.write w (str o))
+       (.write w "\""))
+
+     (prefer-method print-method Secret Object))
+   :cljs
+   (extend-protocol IPrintWithWriter
+       Secret
+       (-pr-writer [new-obj writer _]
+         (write-all writer "#myObj \"" (:details new-obj) "\""))))
 
 (defn mask
   "Mask a value behind the `Secret` type, hiding its real value when printing"
