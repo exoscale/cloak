@@ -3,8 +3,7 @@ name: Clojure CI
 on: [push]
 
 jobs:
-
-  clojure:
+  build:
 
     runs-on: ubuntu-latest
 
