@@ -40,7 +40,7 @@
    (extend-protocol IPrintWithWriter
        Secret
        (-pr-writer [new-obj writer _]
-         (write-all writer "#myObj \"" (:details new-obj) "\""))))
+         (write-all writer "\"" (str new-obj) "\""))))
 
 (defn mask
   "Mask a value behind the `Secret` type, hiding its real value when printing"
