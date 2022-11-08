@@ -2,6 +2,7 @@
   (:require [clojure.pprint :as pp]
             [clojure.walk :as walk]
             [clojure.spec.gen.alpha :as gen]
+            [clojure.test.check.generators]
             [clojure.spec.alpha :as s])
   #?(:cljs (:refer-clojure :exclude [mask])))
 
