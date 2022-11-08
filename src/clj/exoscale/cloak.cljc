@@ -2,16 +2,27 @@
   (:require [clojure.pprint :as pp]
             [clojure.walk :as walk]
             [clojure.spec.gen.alpha :as gen]
-            [clojure.spec.alpha :as s]))
+            [clojure.spec.alpha :as s])
+  #?(:cljs (:refer-clojure :exclude [mask])))
 
 (deftype Secret [x]
-  Object (toString [_] "<< cloaked >>")
-  clojure.lang.IDeref
-  (deref [this] x)
-  clojure.lang.IPending
-  (isRealized [this] false)
-  Comparable
-  (compareTo [this other] 0)) ; to make with with seql h2/mysql compat
+  Object
+  (toString [_] "<< cloaked >>")
+  #?@(:clj
+      (clojure.lang.IDeref
+       (deref [this] x)
+       clojure.lang.IPending
+       (isRealized [this] false)
+       Comparable
+       (compareTo [this other] 0)) ;; to make compatible with seql h2/mysql
+
+      :cljs
+      (IDeref
+       (-deref [this] x)
+       IPending
+       (-realized? [this] false)
+       IComparable
+       (-compare [this other] 0))))
 
 (defmethod pp/simple-dispatch Secret
   [x]
