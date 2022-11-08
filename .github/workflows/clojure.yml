@@ -6,11 +6,7 @@ jobs:
 
   clojure:
 
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macOS-latest, windows-latest]
-
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -20,8 +16,8 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '11'
-          java-package: jdk
-          architecture: x64
+          distribution: 'zulu'
+          architecture: 'x64'
 
       - name: Install clojure tools
         uses: DeLaGuardo/setup-clojure@10.0
