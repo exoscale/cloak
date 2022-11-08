@@ -3,16 +3,33 @@ name: Clojure CI
 on: [push]
 
 jobs:
-  build:
 
-    runs-on: ubuntu-latest
+  clojure:
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-java@v1
-      with:
-        java-version: '11'
-        java-package: jdk
-        architecture: x64
-    - name: Run tests
-      run: ./bin/kaocha clj
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Prepare java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          java-package: jdk
+          architecture: x64
+
+      - name: Install clojure tools
+        uses: DeLaGuardo/setup-clojure@10.0
+        with:
+          cli: 1.11.1.1182
+
+      - name: Run clj tests
+        run: ./bin/kaocha clj
+
+      - name: Run cljs tests
+        run: ./bin/kaocha cljs
