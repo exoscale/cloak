@@ -2,5 +2,4 @@
 {:tests [{:id :clj
           :type :kaocha.type/clojure.test}
          {:id :cljs
-          :type :kaocha.type/cljs
-          :cljs/repl-env cljs.repl.browser/repl-env}]}
+          :type :kaocha.type/cljs}]}
