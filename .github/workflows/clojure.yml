@@ -15,4 +15,4 @@ jobs:
         java-package: jdk
         architecture: x64
     - name: Run tests
-      run: lein test
+      run: ./bin/kaocha clj

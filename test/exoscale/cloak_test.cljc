@@ -1,5 +1,5 @@
-(ns exoscale.cloak.test.core-test
-  (:require [clojure.test :refer :all]
+(ns exoscale.cloak-test
+  (:require [clojure.test :refer [deftest is testing]]
             [exoscale.cloak :as secret]
             [clojure.string :as str]
             [clojure.pprint :as pp]
@@ -23,14 +23,11 @@
     (is (= {:a 1} (secret/unmask (secret/mask {:a (secret/mask 1)}))))))
 
 (deftest compare-test
-
   (let [x (secret/mask "x")
         y (secret/mask "y")]
     (is (= [x y] (sort [x y])))
-    (is (zero? (.compareTo ^Comparable x
-                           ^Comparable y)))
-    (is (zero? (.compareTo ^Comparable y
-                           ^Comparable x)))))
+    (is (zero? (compare x y)))
+    (is (zero? (compare y x)))))
 
 (deftest double-masking-test
   (testing "masking a secret twice requires only a single unmasking"
