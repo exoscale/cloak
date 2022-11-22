@@ -2,6 +2,7 @@
   (:require [clojure.pprint :as pp]
             [clojure.walk :as walk]
             [clojure.spec.gen.alpha :as gen]
+            [clojure.test.check.generators]
             [clojure.spec.alpha :as s])
   #?(:cljs (:refer-clojure :exclude [mask])))
 
@@ -40,7 +41,7 @@
    (extend-protocol IPrintWithWriter
        Secret
        (-pr-writer [new-obj writer _]
-         (write-all writer "#myObj \"" (:details new-obj) "\""))))
+         (write-all writer "\"" (str new-obj) "\""))))
 
 (defn mask
   "Mask a value behind the `Secret` type, hiding its real value when printing"
