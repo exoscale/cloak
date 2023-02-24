@@ -1,5 +1,6 @@
 (ns exoscale.cloak-test
   (:require [clojure.test :refer [deftest is testing]]
+            [clojure.test.check.generators]
             [exoscale.cloak :as secret]
             [clojure.string :as str]
             [clojure.pprint :as pp]
