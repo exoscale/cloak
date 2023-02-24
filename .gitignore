@@ -4,3 +4,8 @@ target
 **/.clj-kondo/.cache
 **/.lsp
 **/.DS_Store
+.cljs_node_repl
+node_modules
+out
+package-lock.json
+package.json
