@@ -51,10 +51,6 @@ You can then have aero files such as this:
 {:stuff {:apikey #secret #env API_KEY}}
 ```
 
-## Documentation
-
-[![cljdoc badge](https://cljdoc.xyz/badge/exoscale/cloak)](https://cljdoc.xyz/d/exoscale/cloak/CURRENT)
-
 ## Installation
 
 cloak is [available on Clojars](https://clojars.org/exoscale/cloak).
