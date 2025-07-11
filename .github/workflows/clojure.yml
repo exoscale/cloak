@@ -21,6 +21,7 @@ jobs:
       - name: Install clojure tools
         uses: DeLaGuardo/setup-clojure@10.0
         with:
+          bb: latest
           cli: 1.11.1.1182
 
       - name: Run clj tests
@@ -28,3 +29,6 @@ jobs:
 
       - name: Run cljs tests
         run: ./bin/kaocha cljs
+        
+      - name: Run bb tests
+        run: bb test:bb
