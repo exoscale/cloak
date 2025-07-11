@@ -1,8 +1,8 @@
 (ns exoscale.cloak
   (:require [clojure.pprint :as pp]
-            [clojure.walk :as walk]
+            [clojure.spec.alpha :as s]
             [clojure.spec.gen.alpha :as gen]
-            [clojure.spec.alpha :as s])
+            [clojure.walk :as walk])
   #?(:cljs (:refer-clojure :exclude [mask])))
 
 (deftype Secret [x]
@@ -15,7 +15,11 @@
        (isRealized [this] false)
        Comparable
        (compareTo [this other] 0)) ;; to make compatible with seql h2/mysql
-
+      :bb
+      (clojure.lang.IDeref
+       (deref [this] x)
+       Comparable
+       (compareTo [this other] 0))
       :cljs
       (IDeref
        (-deref [this] x)
@@ -38,9 +42,9 @@
      (prefer-method print-method Secret Object))
    :cljs
    (extend-protocol IPrintWithWriter
-       Secret
-       (-pr-writer [new-obj writer _]
-         (write-all writer "\"" (str new-obj) "\""))))
+     Secret
+     (-pr-writer [new-obj writer _]
+       (write-all writer "\"" (str new-obj) "\""))))
 
 (defn mask
   "Mask a value behind the `Secret` type, hiding its real value when printing"
