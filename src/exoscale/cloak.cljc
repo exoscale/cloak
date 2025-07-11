@@ -1,14 +1,20 @@
 (ns exoscale.cloak
   (:require [clojure.pprint :as pp]
-            [clojure.walk :as walk]
+            [clojure.spec.alpha :as s]
             [clojure.spec.gen.alpha :as gen]
-            [clojure.spec.alpha :as s])
+            [clojure.walk :as walk])
   #?(:cljs (:refer-clojure :exclude [mask])))
 
+(defprotocol Reveal
+  (reveal [x]))
+
 (deftype Secret [x]
+  Reveal
+  (reveal [_] x)
   Object
   (toString [_] "<< cloaked >>")
-  #?@(:clj
+  #?@(:bb ()
+      :clj
       (clojure.lang.IDeref
        (deref [this] x)
        clojure.lang.IPending
@@ -38,9 +44,9 @@
      (prefer-method print-method Secret Object))
    :cljs
    (extend-protocol IPrintWithWriter
-       Secret
-       (-pr-writer [new-obj writer _]
-         (write-all writer "\"" (str new-obj) "\""))))
+     Secret
+     (-pr-writer [new-obj writer _]
+       (write-all writer "\"" (str new-obj) "\""))))
 
 (defn mask
   "Mask a value behind the `Secret` type, hiding its real value when printing"
@@ -54,7 +60,7 @@
   unmasked, works on any walkable type"
   [x]
   (walk/postwalk #(if (instance? Secret %)
-                    (unmask (deref %))
+                    (unmask (reveal %))
                     %)
                  x))
 
