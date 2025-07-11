@@ -9,7 +9,7 @@
 (deftest secret-test
   (let [x "foo"
         s (secret/mask x)]
-    #?(:bb ()
+    #?(:bb (is (= "foo" (secret/reveal s)))
        :clj (is (= "foo" @s)))
     (is (nil? (str/index-of (pr-str s) "foo")))
     (is (nil? (str/index-of (str s) "foo")))
@@ -21,7 +21,7 @@
     (is (= {:a "foo"} (secret/unmask {:a s})))
     (is (= {:a {:b {:c [1 "foo"]}}} (secret/unmask {:a {:b {:c [1 s]}}})))
     (defrecord F [s])
-    #?(:bb ()
+    #?(:bb (is (= (->F (secret/reveal s)) (secret/unmask (->F s))))
        :clj (is (= (->F @s) (secret/unmask (->F s)))))
     (is (= {:a 1} (secret/unmask (secret/mask {:a (secret/mask 1)}))))))
 
