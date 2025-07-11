@@ -5,21 +5,23 @@
             [clojure.walk :as walk])
   #?(:cljs (:refer-clojure :exclude [mask])))
 
+(defprotocol Reveal
+  (reveal [x]))
+
 (deftype Secret [x]
+  Reveal
+  (reveal [_] x)
   Object
   (toString [_] "<< cloaked >>")
-  #?@(:clj
+  #?@(:bb ()
+      :clj
       (clojure.lang.IDeref
        (deref [this] x)
        clojure.lang.IPending
        (isRealized [this] false)
        Comparable
        (compareTo [this other] 0)) ;; to make compatible with seql h2/mysql
-      :bb
-      (clojure.lang.IDeref
-       (deref [this] x)
-       Comparable
-       (compareTo [this other] 0))
+
       :cljs
       (IDeref
        (-deref [this] x)
@@ -58,7 +60,7 @@
   unmasked, works on any walkable type"
   [x]
   (walk/postwalk #(if (instance? Secret %)
-                    (unmask (deref %))
+                    (unmask (reveal %))
                     %)
                  x))
 
