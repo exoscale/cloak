@@ -17,6 +17,8 @@ some component or right after you read the config.
 
 
 ``` clj
+(require '[exoscale.cloak :as cloak])
+
 (def s (cloak/mask "password1234"))
 (prn s)
 
